@@ -1,12 +1,20 @@
 package com.example.justin.exchangnfcbusinesscard;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,24 +22,43 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.FileNotFoundException;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-    SharedPreferences pre;
-    SharedPreferences.Editor preEdit;
-    ImageView img;
-    TextView name,job,cellphone,email,company,phone,address;
-    Button btn1,btn2,btn3,btn4,btn5,btn6;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    implements NavigationView.OnNavigationItemSelectedListener
+    {
+        SharedPreferences pre;
+        SharedPreferences.Editor preEdit;
+        ImageView img;
+        TextView name, job, cellphone, email, company, phone, address;
+        Button btn1, btn2, btn3, btn4, btn5, btn6,tesbtn;
+        private DisplayMetrics mPhone;
+        @Override
+        protected void onCreate (Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.setDrawerListener(toggle);
+            toggle.syncState();
 
-
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+            tesbtn=(Button)findViewById(R.id.tesbtn);
+            tesbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+                    startActivityForResult(intent, 1);
+                }
+            });
         }
 
 
-
-       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -51,7 +78,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);*/
-    }
+
 
     @Override
     public void onBackPressed() {
@@ -92,14 +119,14 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {//選擇查看名片夾
-            btn1=(Button)findViewById(R.id.nav_camera);
+           /* btn1=(Button)findViewById(R.id.nav_camera);
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MainActivity.this, Main2Activity.class);
                     startActivityForResult(intent, 0);
                 }
-            });
+            });*/
         } else if (id == R.id.nav_gallery) {
            btn2=(Button)findViewById(R.id.nav_gallery);
            btn2.setOnClickListener(new View.OnClickListener() {
@@ -110,41 +137,41 @@ public class MainActivity extends AppCompatActivity
                }
            });
         } else if (id == R.id.nav_slideshow) {
-            btn3=(Button)findViewById(R.id.nav_slideshow);
+           /* btn3=(Button)findViewById(R.id.nav_slideshow);
             btn3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MainActivity.this, Main2Activity.class);
                     startActivityForResult(intent, 2);
                 }
-            });
+            });*/
         } else if (id == R.id.nav_manage) {
-            btn4=(Button)findViewById(R.id.nav_gallery);
+            /*btn4=(Button)findViewById(R.id.nav_gallery);
             btn4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MainActivity.this, Main2Activity.class);
                     startActivityForResult(intent, 3);
                 }
-            });
+            });*/
         } else if (id == R.id.nav_share) {
-            btn5=(Button)findViewById(R.id.nav_gallery);
+           /* btn5=(Button)findViewById(R.id.nav_gallery);
             btn5.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MainActivity.this, Main2Activity.class);
                     startActivityForResult(intent, 4);
                 }
-            });
+            });*/
         } else if (id == R.id.nav_send) {
-            btn6=(Button)findViewById(R.id.nav_gallery);
+           /* btn6=(Button)findViewById(R.id.nav_gallery);
             btn6.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MainActivity.this, Main2Activity.class);
                     startActivityForResult(intent, 5);
                 }
-            });
+            });*/
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -154,7 +181,6 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0) {
             if (resultCode == 101) {
-                Bundle b = data.getExtras();
                 //在TextView顯示對應資料
 
             }
@@ -178,7 +204,47 @@ public class MainActivity extends AppCompatActivity
                 company.setText(b.getString("REQ5"));
                 phone.setText(b.getString("REQ6"));
                 address.setText(b.getString("REQ7"));
+                Uri uri = data.getData();
+                ContentResolver cr = this.getContentResolver();
+                try
+                {
+                    //讀取照片，型態為Bitmap
+                    Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+
+                    //判斷照片為橫向或者為直向，並進入ScalePic判斷圖片是否要進行縮放
+                    if(bitmap.getWidth()>bitmap.getHeight())ScalePic(bitmap,
+                            mPhone.heightPixels);
+                    else ScalePic(bitmap,mPhone.widthPixels);
+                }
+                catch (FileNotFoundException e)
+                {
+                }
             }
         }
+    }
+    private void ScalePic(Bitmap bitmap,int phone)
+    {
+        //縮放比例預設為1
+        float mScale = 1 ;
+
+        //如果圖片寬度大於手機寬度則進行縮放，否則直接將圖片放入ImageView內
+        if(bitmap.getWidth() > phone )
+        {
+            //判斷縮放比例
+            mScale = (float)phone/(float)bitmap.getWidth();
+
+            Matrix mMat = new Matrix() ;
+            mMat.setScale(mScale, mScale);
+
+            Bitmap mScaleBitmap = Bitmap.createBitmap(bitmap,
+                    0,
+                    0,
+                    bitmap.getWidth(),
+                    bitmap.getHeight(),
+                    mMat,
+                    false);
+            img.setImageBitmap(mScaleBitmap);
+        }
+        else img.setImageBitmap(bitmap);
     }
 }

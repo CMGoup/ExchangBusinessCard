@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -133,7 +134,6 @@ public class Main2Activity extends AppCompatActivity {
                     intent.putExtra("REQ6", temp6);
                     intent.putExtra("REQ7", temp7);
                     setResult(1010, intent);
-                    startActivity(intent);
                     Main2Activity.this.finish();
                     // FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
                     //fab.setOnClickListener(new View.OnClickListener() {
@@ -158,8 +158,14 @@ public class Main2Activity extends AppCompatActivity {
             try
             {
                 //讀取照片，型態為Bitmap
-                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+                BitmapFactory.Options mOptions=new BitmapFactory.Options();
+                mOptions.inSampleSize=2;
+                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri),null,mOptions);
 
+                //判斷照片為橫向或者為直向，並進入ScalePic判斷圖片是否要進行縮放
+                if(bitmap.getWidth()>bitmap.getHeight())ScalePic(bitmap,
+                        mPhone.heightPixels);
+                else ScalePic(bitmap,mPhone.widthPixels);
             }
             catch (FileNotFoundException e)
             {
@@ -168,5 +174,29 @@ public class Main2Activity extends AppCompatActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+    private void ScalePic(Bitmap bitmap,int phone)
+    {
+        //縮放比例預設為1
+        float mScale = 1 ;
 
+        //如果圖片寬度大於手機寬度則進行縮放，否則直接將圖片放入ImageView內
+        if(bitmap.getWidth() > phone )
+        {
+            //判斷縮放比例
+            mScale = (float)phone/(float)bitmap.getWidth();
+
+            Matrix mMat = new Matrix() ;
+            mMat.setScale(mScale, mScale);
+
+            Bitmap mScaleBitmap = Bitmap.createBitmap(bitmap,
+                    0,
+                    0,
+                    bitmap.getWidth(),
+                    bitmap.getHeight(),
+                    mMat,
+                    false);
+            btn.setImageBitmap(mScaleBitmap);
+        }
+        else btn.setImageBitmap(bitmap);
+    }
 }
