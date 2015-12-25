@@ -128,14 +128,10 @@ public class MainActivity extends AppCompatActivity
                 }
             });*/
         } else if (id == R.id.nav_gallery) {
-           btn2=(Button)findViewById(R.id.nav_gallery);
-           btn2.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-                   startActivityForResult(intent, 1);
-               }
-           });
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, Main2Activity.class);
+            startActivityForResult(intent, 1);
+
         } else if (id == R.id.nav_slideshow) {
            /* btn3=(Button)findViewById(R.id.nav_slideshow);
             btn3.setOnClickListener(new View.OnClickListener() {
