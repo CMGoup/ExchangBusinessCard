@@ -11,7 +11,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.justin.exchangnfcbusinesscard.Main2Activity"
     tools:showIn="@layout/activity_main2">
-
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,7 +20,7 @@
         android:src="@drawable/preset" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:text="姓名:"
         android:id="@+id/name"
@@ -82,76 +81,83 @@
         android:layout_height="wrap_content"
         android:text="公司地址:"
         android:id="@+id/address"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="32dp"
         android:layout_below="@+id/editText6"
-        android:layout_toLeftOf="@+id/editText7"
-        android:layout_toStartOf="@+id/editText7" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="6"
         android:id="@+id/editText1"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/email"
-        android:layout_toEndOf="@+id/email" />
+        android:layout_toEndOf="@+id/email"
+        android:text="Justin" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/editText4"
         android:layout_alignTop="@+id/email"
         android:layout_toRightOf="@+id/phone"
-        android:layout_toEndOf="@+id/phone" />
+        android:layout_toEndOf="@+id/phone"
+        android:text="justin840727@gmail.com" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:ems="10"
         android:id="@+id/editText6"
         android:layout_alignTop="@+id/phone"
         android:layout_toRightOf="@+id/phone"
-        android:layout_toEndOf="@+id/phone" />
+        android:layout_toEndOf="@+id/phone"
+        android:text="021122334" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="7"
         android:id="@+id/editText3"
         android:layout_alignTop="@+id/cellphone"
         android:layout_toRightOf="@+id/email"
-        android:layout_toEndOf="@+id/email" />
+        android:layout_toEndOf="@+id/email"
+        android:text="0919445833" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:id="@+id/editText2"
         android:layout_alignTop="@+id/job"
         android:layout_alignLeft="@+id/editText1"
-        android:layout_alignStart="@+id/editText1" />
+        android:layout_alignStart="@+id/editText1"
+        android:text="student" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:inputType="textPostalAddress"
         android:ems="10"
         android:id="@+id/editText7"
-        android:layout_alignTop="@+id/address"
-        android:layout_toRightOf="@+id/editText2"
-        android:layout_toEndOf="@+id/editText2" />
+        android:layout_alignBottom="@+id/address"
+        android:layout_toRightOf="@+id/address"
+        android:layout_toEndOf="@+id/address"
+        android:text="台北市大安區忠孝東路三段1號" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editText5"
         android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/editText7"
-        android:layout_alignStart="@+id/editText7" />
+        android:layout_alignLeft="@+id/editText4"
+        android:layout_alignStart="@+id/editText4"
+        android:text="NTUT" />
 
     <Button
         android:layout_width="wrap_content"
@@ -161,4 +167,5 @@
         android:layout_below="@+id/editText7"
         android:layout_toLeftOf="@+id/imageButton"
         android:layout_toStartOf="@+id/imageButton" />
+
 </RelativeLayout>

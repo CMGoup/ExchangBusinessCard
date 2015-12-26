@@ -118,15 +118,10 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {//選擇查看名片夾
-           /* btn1=(Button)findViewById(R.id.nav_camera);
-            btn1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-                    startActivityForResult(intent, 0);
-                }
-            });*/
+        /*****************交換名片********************/
+        if (id == R.id.nav_camera) {
+            Intent i = new Intent(MainActivity.this, NfcSend.class);
+            startActivityForResult(i, 1);
         } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, Main2Activity.class);
@@ -183,38 +178,7 @@ public class MainActivity extends AppCompatActivity
         }
         if (requestCode == 1) {
             if (resultCode == 1010) {
-                Bundle b = data.getExtras();
-                //在TextView顯示對應資料
-                img=(ImageView) findViewById(R.id.imageView);
-                name = (TextView) findViewById(R.id.Name);
-                job = (TextView) findViewById(R.id.Job);
-                cellphone = (TextView) findViewById(R.id.Cellphone);
-                email = (TextView) findViewById(R.id.Email);
-                company = (TextView) findViewById(R.id.Company);
-                phone = (TextView) findViewById(R.id.Phone);
-                address = (TextView) findViewById(R.id.Address);
-                name.setText(b.getString("REQ1"));
-                job.setText(b.getString("REQ2"));
-                cellphone.setText(b.getString("REQ3"));
-                email.setText(b.getString("REQ4"));
-                company.setText(b.getString("REQ5"));
-                phone.setText(b.getString("REQ6"));
-                address.setText(b.getString("REQ7"));
-                Uri uri = data.getData();
-                ContentResolver cr = this.getContentResolver();
-                try
-                {
-                    //讀取照片，型態為Bitmap
-                    Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-
-                    //判斷照片為橫向或者為直向，並進入ScalePic判斷圖片是否要進行縮放
-                    if(bitmap.getWidth()>bitmap.getHeight())ScalePic(bitmap,
-                            mPhone.heightPixels);
-                    else ScalePic(bitmap,mPhone.widthPixels);
-                }
-                catch (FileNotFoundException e)
-                {
-                }
+                setSelfCardView(data.getExtras());
             }
         }
     }
@@ -243,4 +207,42 @@ public class MainActivity extends AppCompatActivity
         }
         else img.setImageBitmap(bitmap);
     }
+    private void setSelfCardView(Bundle b){
+        //Bundle b = data.getExtras();
+        //在TextView顯示對應資料
+        img=(ImageView) findViewById(R.id.imageView);
+        name = (TextView) findViewById(R.id.Name);
+        job = (TextView) findViewById(R.id.Job);
+        cellphone = (TextView) findViewById(R.id.Cellphone);
+        email = (TextView) findViewById(R.id.Email);
+        company = (TextView) findViewById(R.id.Company);
+        phone = (TextView) findViewById(R.id.Phone);
+        address = (TextView) findViewById(R.id.Address);
+
+        name.setText(b.getString("REQ1"));
+        job.setText(b.getString("REQ2"));
+        cellphone.setText(b.getString("REQ3"));
+        email.setText(b.getString("REQ4"));
+        company.setText(b.getString("REQ5"));
+        phone.setText(b.getString("REQ6"));
+        address.setText(b.getString("REQ7"));
+
+
+//        Uri uri = data.getData();
+//        ContentResolver cr = this.getContentResolver();
+//                try
+//                {
+//                    //讀取照片，型態為Bitmap
+//                    Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+//
+//                    //判斷照片為橫向或者為直向，並進入ScalePic判斷圖片是否要進行縮放
+//                    if(bitmap.getWidth()>bitmap.getHeight())ScalePic(bitmap,
+//                            mPhone.heightPixels);
+//                    else ScalePic(bitmap,mPhone.widthPixels);
+//                }
+//                catch (FileNotFoundException e)
+//                {
+//                }
+    }
+
 }

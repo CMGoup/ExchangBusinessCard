@@ -118,23 +118,22 @@ public class Main2Activity extends AppCompatActivity {
                     company = (EditText) findViewById(R.id.editText5);
                     phone = (EditText) findViewById(R.id.editText6);
                     address = (EditText) findViewById(R.id.editText7);
-                    String temp1 = name.getText().toString();
-                    String temp2 = job.getText().toString();
-                    String temp3 = cellphone.getText().toString();
-                    String temp4 = email.getText().toString();
-                    String temp5 = company.getText().toString();
-                    String temp6 = phone.getText().toString();
-                    String temp7 = address.getText().toString();
+
+                    Bundle b = new Bundle();
+                    b.putString("REQ1", name.getText().toString());
+                    b.putString("REQ2", job.getText().toString());
+                    b.putString("REQ3", cellphone.getText().toString());
+                    b.putString("REQ4", email.getText().toString());
+                    b.putString("REQ5", company.getText().toString());
+                    b.putString("REQ6", phone.getText().toString());
+                    b.putString("REQ7", address.getText().toString());
+
                     Intent intent = new Intent(Main2Activity.this, MainActivity.class);
-                    intent.putExtra("REQ1", temp1);
-                    intent.putExtra("REQ2", temp2);
-                    intent.putExtra("REQ3", temp3);
-                    intent.putExtra("REQ4", temp4);
-                    intent.putExtra("REQ5", temp5);
-                    intent.putExtra("REQ6", temp6);
-                    intent.putExtra("REQ7", temp7);
+                    intent.putExtras(b);
                     setResult(1010, intent);
                     Main2Activity.this.finish();
+
+
                     // FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
                     //fab.setOnClickListener(new View.OnClickListener() {
                     // @Override
