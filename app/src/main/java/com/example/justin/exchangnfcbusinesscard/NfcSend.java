@@ -29,9 +29,15 @@ public class NfcSend extends AppCompatActivity implements NfcAdapter.CreateNdefM
 
         textView = (TextView)findViewById(R.id.textView);
         Bundle b = getIntent().getExtras();
+        ReMsg = "123456";
         if(b != null){
-            //textView.setText("You send : \n\n" + b.getString("Msg"));
-            ReMsg = b.getString("Msg");
+            ReMsg =   b.getString("REQ1") + "\n"
+                    + b.getString("REQ2") + "\n"
+                    + b.getString("REQ3") + "\n"
+                    + b.getString("REQ4") + "\n"
+                    + b.getString("REQ5") + "\n"
+                    + b.getString("REQ6") + "\n"
+                    + b.getString("REQ7");
         }
 
 
@@ -53,7 +59,8 @@ public class NfcSend extends AppCompatActivity implements NfcAdapter.CreateNdefM
     public NdefMessage createNdefMessage(NfcEvent event) {
         //String text = ("Beam me up, Android!\n" + "Beam Time: " + System.currentTimeMillis());
         NdefMessage msg = new NdefMessage(new NdefRecord[]{
-                NdefRecord.createMime("application/vnd.com.example.justin.nfctest", ReMsg.getBytes(Charset.forName("US-ASCII")))
+                NdefRecord.createMime("application/vnd.com.example.justin.exchangnfcbusinesscard"
+                        , ReMsg.getBytes(Charset.forName("UTF-8")))
         });
         return msg;
     }
@@ -71,8 +78,8 @@ public class NfcSend extends AppCompatActivity implements NfcAdapter.CreateNdefM
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MESSAGE_SENT:
-                    Intent i = new Intent();
-                    Toast.makeText(getApplicationContext(), "Message sent!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Message sent!", Toast.LENGTH_LONG)
+                            .show();
                     break;
             }
         }

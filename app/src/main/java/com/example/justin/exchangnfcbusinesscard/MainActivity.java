@@ -27,6 +27,7 @@ import java.io.FileNotFoundException;
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener
     {
+        public Bundle SelfBundle;
         SharedPreferences pre;
         SharedPreferences.Editor preEdit;
         ImageView img;
@@ -120,8 +121,7 @@ public class MainActivity extends AppCompatActivity
 
         /*****************交換名片********************/
         if (id == R.id.nav_camera) {
-            Intent i = new Intent(MainActivity.this, NfcSend.class);
-            startActivityForResult(i, 1);
+            NfcExchang(SelfBundle);
         } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, Main2Activity.class);
@@ -178,7 +178,8 @@ public class MainActivity extends AppCompatActivity
         }
         if (requestCode == 1) {
             if (resultCode == 1010) {
-                setSelfCardView(data.getExtras());
+                SelfBundle = data.getExtras();
+                setSelfCardView(SelfBundle);
             }
         }
     }
@@ -207,9 +208,10 @@ public class MainActivity extends AppCompatActivity
         }
         else img.setImageBitmap(bitmap);
     }
+
+    /**************回傳個人資料顯示****************/
     private void setSelfCardView(Bundle b){
-        //Bundle b = data.getExtras();
-        //在TextView顯示對應資料
+
         img=(ImageView) findViewById(R.id.imageView);
         name = (TextView) findViewById(R.id.Name);
         job = (TextView) findViewById(R.id.Job);
@@ -243,6 +245,12 @@ public class MainActivity extends AppCompatActivity
 //                catch (FileNotFoundException e)
 //                {
 //                }
+    }
+
+    private void NfcExchang(Bundle b){
+        Intent i = new Intent(MainActivity.this, NfcSend.class);
+        i.putExtras(b);
+        startActivity(i);
     }
 
 }
