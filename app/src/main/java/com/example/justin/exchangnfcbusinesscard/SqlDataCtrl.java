@@ -18,11 +18,23 @@ public class SqlDataCtrl {
     /***************cell items**************/
     public static final String NAME_COLUMN = "name";
     public static final String JOB_COLUMN = "job";
-    public static final String CELLPHINE_CILUMN = "cellphone";
+    public static final String CELLPHONE_CILUMN = "cellphone";
     public static final String EMAIL_COLUMN = "email";
     public static final String COMPANY_COLUMN = "company";
-    public static final String PHONE = "phone";
-    public static final String ADDRESS = "address";
+    public static final String PHONE_COLUMN = "phone";
+    public static final String ADDRESS_COLUMN = "address";
+
+    /***********SQL 創建表格指令*************/
+    public static final String CREATE_TABLE =
+            "CREATE TABLE " + TABLE_NAME + " (" +
+                    KEY_ID +            " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    NAME_COLUMN +       " TEXT NOT NULL, " +
+                    JOB_COLUMN +        " TEXT NOT NULL, " +
+                    CELLPHONE_CILUMN +  " INTEGER NOT NULL, " +
+                    EMAIL_COLUMN +      " TEXT NOT NULL, " +
+                    COMPANY_COLUMN +    " TEXT NOT NULL, " +
+                    PHONE_COLUMN +      " INTEGER NOT NULL, " +
+                    ADDRESS_COLUMN +    " TEXT NOT NULL)";
 
     private SQLiteDatabase db;
 
@@ -36,17 +48,20 @@ public class SqlDataCtrl {
     }
 
     /*****************插入項目********************/
-    public ClipData.Item insert(ClipData.Item item){
+    public void insert(Intent intent){
         ContentValues cv = new ContentValues();
-        Bundle b = item.getIntent().getExtras();
+        Bundle b = intent.getExtras();
         cv.put(NAME_COLUMN, b.getString("REQ1"));
         cv.put(JOB_COLUMN, b.getString("REQ2"));
-        cv.put(CELLPHINE_CILUMN, b.getString("REQ3"));
+        cv.put(CELLPHONE_CILUMN, b.getString("REQ3"));
         cv.put(EMAIL_COLUMN, b.getString("REQ4"));
         cv.put(COMPANY_COLUMN, b.getString("REQ5"));
-        cv.put(PHONE, b.getString("REQ6"));
-        cv.put(ADDRESS, b.getString("REQ7"));
-        return item;
+        cv.put(PHONE_COLUMN, b.getString("REQ6"));
+        cv.put(ADDRESS_COLUMN, b.getString("REQ7"));
+
+        long id = db.insert(TABLE_NAME, null, cv);
+
+
     }
 
 }
