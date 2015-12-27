@@ -29,7 +29,6 @@ public class NfcSend extends AppCompatActivity implements NfcAdapter.CreateNdefM
 
         textView = (TextView)findViewById(R.id.textView);
         Bundle b = getIntent().getExtras();
-        ReMsg = "123456";
         if(b != null){
             ReMsg =   b.getString("REQ1") + "\n"
                     + b.getString("REQ2") + "\n"

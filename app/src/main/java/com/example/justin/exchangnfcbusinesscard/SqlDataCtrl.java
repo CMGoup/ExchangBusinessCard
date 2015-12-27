@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
@@ -32,10 +33,10 @@ public class SqlDataCtrl {
                     KEY_ID +            " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     NAME_COLUMN +       " TEXT NOT NULL, " +
                     JOB_COLUMN +        " TEXT NOT NULL, " +
-                    CELLPHONE_CILUMN +  " INTEGER NOT NULL, " +
+                    CELLPHONE_CILUMN +  " TEXT NOT NULL, " +
                     EMAIL_COLUMN +      " TEXT NOT NULL, " +
                     COMPANY_COLUMN +    " TEXT NOT NULL, " +
-                    PHONE_COLUMN +      " INTEGER NOT NULL, " +
+                    PHONE_COLUMN +      " TEXT NOT NULL, " +
                     ADDRESS_COLUMN +    " TEXT NOT NULL)";
 
     private SQLiteDatabase db;
@@ -61,6 +62,22 @@ public class SqlDataCtrl {
         cv.put(ADDRESS_COLUMN, b.getString("REQ7"));
 
         b.putLong("id", db.insert(TABLE_NAME, null, cv));
+        return b;
+    }
+    public Bundle getData(long id){
+        Bundle b = new Bundle();
+        String where = KEY_ID + "=" + id;
+        Cursor result = db.query(TABLE_NAME, null, where, null, null, null, null, null);
+        if(result.moveToFirst()) {
+            b.putString("REQ1", result.getString(1));
+            b.putString("REQ2", result.getString(2));
+            b.putString("REQ3", result.getString(3));
+            b.putString("REQ4", result.getString(4));
+            b.putString("REQ5", result.getString(5));
+            b.putString("REQ6", result.getString(6));
+            b.putString("REQ7", result.getString(7));
+        }
+        result.close();
         return b;
     }
 

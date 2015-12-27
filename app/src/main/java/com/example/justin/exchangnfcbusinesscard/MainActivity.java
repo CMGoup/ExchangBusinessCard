@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener
     {
         public Bundle SelfBundle;
+        public Bundle SqlBundle;
         public SqlDataCtrl SDL;
 
         SharedPreferences pre;
@@ -120,6 +121,11 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        SDL.close();
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -129,7 +135,7 @@ public class MainActivity extends AppCompatActivity
 
         /*****************交換名片********************/
         if (id == R.id.nav_camera) {
-            NfcExchang(SelfBundle);
+            NfcExchang(SqlBundle);
         } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, Main2Activity.class);
@@ -242,6 +248,7 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(this, "以儲存個人資料", Toast.LENGTH_SHORT).show();
         Log.d("SQL", "After Inster " + String.valueOf(SelfBundle.getLong("id")));
 
+        SqlBundle = SDL.getData(SelfBundle.getLong("id"));
 //        Uri uri = data.getData();
 //        ContentResolver cr = this.getContentResolver();
 //                try
