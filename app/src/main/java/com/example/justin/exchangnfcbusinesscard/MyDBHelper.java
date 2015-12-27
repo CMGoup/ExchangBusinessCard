@@ -34,16 +34,12 @@ public class MyDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // 建立應用程式需要的表格
-
-        // 待會再回來完成它
+        db.execSQL(SqlDataCtrl.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // 刪除原有的表格
-        // 待會再回來完成它
-
-        // 呼叫onCreate建立新版的表格
-        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS " + SqlDataCtrl.TABLE_NAME);
     }
 }

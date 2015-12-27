@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import java.awt.font.TextAttribute;
+
 /**
  * Created by Justin on 2015/12/26.
  */
@@ -47,10 +49,9 @@ public class SqlDataCtrl {
         db.close();
     }
 
-    /*****************插入項目********************/
-    public void insert(Intent intent){
+    /***************插入項目回傳id******************/
+    public Bundle insert(Bundle b){
         ContentValues cv = new ContentValues();
-        Bundle b = intent.getExtras();
         cv.put(NAME_COLUMN, b.getString("REQ1"));
         cv.put(JOB_COLUMN, b.getString("REQ2"));
         cv.put(CELLPHONE_CILUMN, b.getString("REQ3"));
@@ -59,9 +60,8 @@ public class SqlDataCtrl {
         cv.put(PHONE_COLUMN, b.getString("REQ6"));
         cv.put(ADDRESS_COLUMN, b.getString("REQ7"));
 
-        long id = db.insert(TABLE_NAME, null, cv);
-
-
+        b.putLong("id", db.insert(TABLE_NAME, null, cv));
+        return b;
     }
 
 }

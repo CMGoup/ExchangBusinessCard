@@ -15,12 +15,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener
     {
         public Bundle SelfBundle;
+        public SqlDataCtrl SDL;
 
         SharedPreferences pre;
         SharedPreferences.Editor preEdit;
@@ -47,6 +50,9 @@ public class MainActivity extends AppCompatActivity
             drawer.setDrawerListener(toggle);
             toggle.syncState();
 
+            /****************DataBase setting*****************/
+            SDL = new SqlDataCtrl(getApplicationContext());
+
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
             tesbtn=(Button)findViewById(R.id.tesbtn);
@@ -57,6 +63,7 @@ public class MainActivity extends AppCompatActivity
                     startActivityForResult(intent, 1);
                 }
             });
+
         }
 
 
@@ -230,6 +237,10 @@ public class MainActivity extends AppCompatActivity
         phone.setText(b.getString("REQ6"));
         address.setText(b.getString("REQ7"));
 
+
+        SelfBundle = SDL.insert(SelfBundle);
+        Toast.makeText(this, "以儲存個人資料", Toast.LENGTH_SHORT).show();
+        Log.d("SQL", "After Inster " + String.valueOf(SelfBundle.getLong("id")));
 
 //        Uri uri = data.getData();
 //        ContentResolver cr = this.getContentResolver();
