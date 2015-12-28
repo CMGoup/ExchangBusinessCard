@@ -42,6 +42,7 @@ public class SqlDataCtrl {
     private SQLiteDatabase db;
 
     public SqlDataCtrl(Context context){
+
         db = MyDBHelper.getDatabase(context);
     }
 
@@ -99,7 +100,14 @@ public class SqlDataCtrl {
     }
 
     /*************id欄位是否存在***************/
-//    public boolean isExist(long id){
-//
-//    }
+    public boolean isExist(long id){
+        Bundle b = new Bundle();
+        b = this.getData(id);
+        if(String.valueOf(b.getLong("id")) != null){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
 }

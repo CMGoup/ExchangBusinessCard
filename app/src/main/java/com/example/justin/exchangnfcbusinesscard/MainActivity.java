@@ -1,6 +1,8 @@
 package com.example.justin.exchangnfcbusinesscard;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -24,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 
 public class MainActivity extends AppCompatActivity
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity
         public Bundle SelfBundle;
         public Bundle SqlBundle;
         public SqlDataCtrl SDL;
+
+        public static final long FRIST_ID = 1;
 
         SharedPreferences pre;
         SharedPreferences.Editor preEdit;
@@ -54,6 +59,22 @@ public class MainActivity extends AppCompatActivity
             /****************DataBase setting*****************/
             SDL = new SqlDataCtrl(getApplicationContext());
 
+            if(SDL.isExist(FRIST_ID)){
+                SelfBundle = SDL.getData(FRIST_ID);
+                //this.setSelfCardView(SelfBundle);
+            }else{
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("尚未設定個人資料")
+                        .setMessage("請按下確定鍵開始設定屬於自己的電子名片")
+                        .setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent();
+                                intent.setClass(MainActivity.this, Main2Activity.class);
+                                startActivityForResult(intent, 1);
+                            }
+                        }).show();
+            }
             /******************Set Veiw Button***************/
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
@@ -114,6 +135,8 @@ public class MainActivity extends AppCompatActivity
         /*****************交換名片********************/
         if (id == R.id.nav_camera) {
             NfcExchang(SqlBundle);
+
+        /****************設定個人資料***************/
         } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, Main2Activity.class);
@@ -137,40 +160,17 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == 0) {
             if (resultCode == 101) {
                 //在TextView顯示對應資料
-
             }
         }
         if (requestCode == 1) {
             if (resultCode == 1010) {
                 SelfBundle = data.getExtras();
+                SelfBundle.putLong("id", FRIST_ID);
                 setSelfCardView(SelfBundle);
+                SDL.update(SelfBundle);
+                Toast.makeText(this, "以更新個人資料", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-    private void ScalePic(Bitmap bitmap,int phone)
-    {
-        //縮放比例預設為1
-        float mScale = 1 ;
-
-        //如果圖片寬度大於手機寬度則進行縮放，否則直接將圖片放入ImageView內
-        if(bitmap.getWidth() > phone )
-        {
-            //判斷縮放比例
-            mScale = (float)phone/(float)bitmap.getWidth();
-
-            Matrix mMat = new Matrix() ;
-            mMat.setScale(mScale, mScale);
-
-            Bitmap mScaleBitmap = Bitmap.createBitmap(bitmap,
-                    0,
-                    0,
-                    bitmap.getWidth(),
-                    bitmap.getHeight(),
-                    mMat,
-                    false);
-            img.setImageBitmap(mScaleBitmap);
-        }
-        else img.setImageBitmap(bitmap);
     }
 
     /**************回傳個人資料顯示****************/
@@ -193,17 +193,20 @@ public class MainActivity extends AppCompatActivity
         phone.setText(b.getString("REQ6"));
         address.setText(b.getString("REQ7"));
 
-        SelfBundle.putLong("id", 1);
-        Log.d("SQL", "After Inster " + String.valueOf(SelfBundle.getLong("id")));
-        if(SDL.update(SelfBundle)){
-            Toast.makeText(this, "以更新個人資料", Toast.LENGTH_SHORT).show();
-            SDL.update(SelfBundle);
-        }else{
-            Toast.makeText(this, "以儲存個人資料", Toast.LENGTH_SHORT).show();
-            SDL.insert(SelfBundle);
-        }
+        Bitmap bitmap = BitmapFactory.decodeByteArray(b.getByteArray("image"), 0, b.getByteArray("image").length);
+        img.setImageBitmap(bitmap);
 
-        SqlBundle = SDL.getData(SelfBundle.getLong("id"));
+//        SelfBundle.putLong("id", 1);
+//        Log.d("SQL", "After Inster " + String.valueOf(SelfBundle.getLong("id")));
+//        if(SDL.update(SelfBundle)){
+//            Toast.makeText(this, "以更新個人資料", Toast.LENGTH_SHORT).show();
+//            SDL.update(SelfBundle);
+//        }else{
+//            Toast.makeText(this, "以儲存個人資料", Toast.LENGTH_SHORT).show();
+//            SDL.insert(SelfBundle);
+//        }
+
+
 //        Uri uri = data.getData();
 //        ContentResolver cr = this.getContentResolver();
 //                try
