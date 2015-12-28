@@ -1,6 +1,10 @@
 package com.example.justin.exchangnfcbusinesscard;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -10,6 +14,11 @@ import android.os.Message;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +30,7 @@ public class NfcSend extends AppCompatActivity implements NfcAdapter.CreateNdefM
     String ReMsg;
     NfcAdapter mNfcAdapter;     //Nfc宣告
     TextView textView;
+    String ReceiveStr;
     private static final int MESSAGE_SENT = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +39,8 @@ public class NfcSend extends AppCompatActivity implements NfcAdapter.CreateNdefM
 
         textView = (TextView)findViewById(R.id.textView);
         Bundle b = getIntent().getExtras();
+//        String picture = Base64.encodeToString(b.getByteArray("image"), Base64.DEFAULT);
+//        Log.d("SQL", b.getByteArray("image").toString());
         if(b != null){
             ReMsg =   b.getString("REQ1") + "\n"
                     + b.getString("REQ2") + "\n"
@@ -36,22 +48,30 @@ public class NfcSend extends AppCompatActivity implements NfcAdapter.CreateNdefM
                     + b.getString("REQ4") + "\n"
                     + b.getString("REQ5") + "\n"
                     + b.getString("REQ6") + "\n"
-                    + b.getString("REQ7");
+                    + b.getString("REQ7") + "\n"
+                    + "pivture";
         }
 
 
         /*************Check for available NFC Adapter**************/
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if(mNfcAdapter == null){
-            textView.setText("NOT Support NFC!");
-            Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG).show();
-            finish();
-            return;
+            textView.setText("本裝置不支援NFC");
+            new AlertDialog.Builder(NfcSend.this)
+                    .setTitle("本裝置不支援NFC")
+                    .setMessage("點擊離開鍵返回個人名片")
+                    .setPositiveButton("離開", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).show();
         }else{
-            textView.setText("Support NFC!");
+            textView.setText("將兩支手機背靠背後點擊後交換名片~");
             mNfcAdapter.setNdefPushMessageCallback(this, this);
             mNfcAdapter.setOnNdefPushCompleteCallback(this, this);
         }
+
     }
 
     @Override
@@ -69,6 +89,7 @@ public class NfcSend extends AppCompatActivity implements NfcAdapter.CreateNdefM
         // A handler is needed to send messages to the activity when this
         // callback occurs, because it happens from a binder thread
         mHandler.obtainMessage(MESSAGE_SENT).sendToTarget();
+        //finish();
     }
 
     /** This handler receives a message from onNdefPushComplete */
@@ -104,6 +125,53 @@ public class NfcSend extends AppCompatActivity implements NfcAdapter.CreateNdefM
         // only one message sent during the beam
         NdefMessage msg = (NdefMessage) rawMsgs[0];
         // record 0 contains the MIME type, record 1 is the AAR, if present
-        textView.setText("NFC message:\n" + new String(msg.getRecords()[0].getPayload()));
+        ReceiveStr = new String(msg.getRecords()[0].getPayload());
+        setView(this.DatatoBundle(ReceiveStr));
+        //textView.setText("NFC message:\n" + ReceiveStr);
+
+        /***************儲存NFC名片*******************/
+        Button btn = (Button) findViewById(R.id.nfc_save);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+    public void setView(Bundle b){
+        TextView name = (TextView)findViewById(R.id.nfc_name);
+        TextView job = (TextView)findViewById(R.id.nfc_job);
+        TextView cellphone = (TextView)findViewById(R.id.nfc_cellphone);
+        TextView email = (TextView)findViewById(R.id.nfc_email);
+        TextView company = (TextView)findViewById(R.id.nfc_company);
+        TextView phone = (TextView)findViewById(R.id.nfc_phone);
+        TextView address = (TextView)findViewById(R.id.nfc_address);
+        ImageView image = (ImageView)findViewById(R.id.nfc_image);
+
+        name.setText(b.getString("REQ1"));
+        job.setText(b.getString("REQ2"));
+        cellphone.setText(b.getString("REQ3"));
+        email.setText(b.getString("REQ4"));
+        company.setText(b.getString("REQ5"));
+        phone.setText(b.getString("REQ6"));
+        address.setText(b.getString("REQ7"));
+
+    }
+    public Bundle DatatoBundle(String str){
+        Bundle bundle = new Bundle();
+        String[] stringSplit = str.split("\n");
+
+        bundle.putString("REQ1", stringSplit[0]);
+        bundle.putString("REQ2", stringSplit[1]);
+        bundle.putString("REQ3", stringSplit[2]);
+        bundle.putString("REQ4", stringSplit[3]);
+        bundle.putString("REQ5", stringSplit[4]);
+        bundle.putString("REQ6", stringSplit[5]);
+        bundle.putString("REQ7", stringSplit[6]);
+
+        //byte[] theByteArray = stringSplit[7].;
+        //bundle.putByteArray("image", theByteArray);
+
+        return bundle;
     }
 }

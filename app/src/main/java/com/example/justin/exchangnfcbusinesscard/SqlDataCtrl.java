@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 
 import java.awt.font.TextAttribute;
 
@@ -26,18 +28,20 @@ public class SqlDataCtrl {
     public static final String COMPANY_COLUMN = "company";
     public static final String PHONE_COLUMN = "phone";
     public static final String ADDRESS_COLUMN = "address";
+    public static final String IMAGE_COLUMN = "image";
 
     /***********SQL 創建表格指令*************/
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + " (" +
                     KEY_ID +            " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    NAME_COLUMN +       " TEXT NOT NULL, " +
-                    JOB_COLUMN +        " TEXT NOT NULL, " +
-                    CELLPHONE_CILUMN +  " TEXT NOT NULL, " +
-                    EMAIL_COLUMN +      " TEXT NOT NULL, " +
-                    COMPANY_COLUMN +    " TEXT NOT NULL, " +
-                    PHONE_COLUMN +      " TEXT NOT NULL, " +
-                    ADDRESS_COLUMN +    " TEXT NOT NULL)";
+                    NAME_COLUMN +       " TEXT, " +
+                    JOB_COLUMN +        " TEXT, " +
+                    CELLPHONE_CILUMN +  " TEXT, " +
+                    EMAIL_COLUMN +      " TEXT, " +
+                    COMPANY_COLUMN +    " TEXT, " +
+                    PHONE_COLUMN +      " TEXT, " +
+                    ADDRESS_COLUMN +    " TEXT, " +
+                    IMAGE_COLUMN +      " TEXT)";
 
     private SQLiteDatabase db;
 
@@ -61,6 +65,7 @@ public class SqlDataCtrl {
         cv.put(COMPANY_COLUMN, b.getString("REQ5"));
         cv.put(PHONE_COLUMN, b.getString("REQ6"));
         cv.put(ADDRESS_COLUMN, b.getString("REQ7"));
+        cv.put(IMAGE_COLUMN, Base64.encodeToString(b.getByteArray("image"), Base64.DEFAULT));
 
         b.putLong("id", db.insert(TABLE_NAME, null, cv));
         return b;
@@ -76,7 +81,7 @@ public class SqlDataCtrl {
         cv.put(COMPANY_COLUMN, b.getString("REQ5"));
         cv.put(PHONE_COLUMN, b.getString("REQ6"));
         cv.put(ADDRESS_COLUMN, b.getString("REQ7"));
-
+        cv.put(IMAGE_COLUMN, Base64.encodeToString(b.getByteArray("image"), Base64.DEFAULT));
         String where = KEY_ID + "=" + b.getLong("id");
         return db.update(TABLE_NAME, cv, where, null) > 0;
     }
@@ -94,20 +99,29 @@ public class SqlDataCtrl {
             b.putString("REQ5", result.getString(5));
             b.putString("REQ6", result.getString(6));
             b.putString("REQ7", result.getString(7));
+
+            byte[] bytes = Base64.decode(result.getString(8), Base64.DEFAULT);
+            b.putByteArray("image", bytes);
         }
         result.close();
         return b;
     }
+    /***************取得資料數量***************/
+    public int getCount(){
+        int result = 0;
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_NAME, null);
+        if (cursor.moveToNext()) {
+            result = cursor.getInt(0);
+        }
+        return result;
+    }
 
     /*************id欄位是否存在***************/
-    public boolean isExist(long id){
-        Bundle b = new Bundle();
-        b = this.getData(id);
-        if(String.valueOf(b.getLong("id")) != null){
-            return true;
-        }else{
-            return false;
-        }
-
-    }
+//    public boolean isExist(long id){
+//        Bundle b;
+//        String where = KEY_ID + "=" + id;
+//        Cursor result = db.query(TABLE_NAME, null, where, null, null, null, null, null);
+//        result.isNull()
+//        return true;
+//    }
 }

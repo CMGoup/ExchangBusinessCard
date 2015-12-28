@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener
     {
         public Bundle SelfBundle;
-        public Bundle SqlBundle;
         public SqlDataCtrl SDL;
 
         public static final long FRIST_ID = 1;
@@ -59,9 +58,9 @@ public class MainActivity extends AppCompatActivity
             /****************DataBase setting*****************/
             SDL = new SqlDataCtrl(getApplicationContext());
 
-            if(SDL.isExist(FRIST_ID)){
+            if(SDL.getCount() > 0){
                 SelfBundle = SDL.getData(FRIST_ID);
-                //this.setSelfCardView(SelfBundle);
+                this.setSelfCardView(SelfBundle);
             }else{
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle("尚未設定個人資料")
@@ -78,15 +77,6 @@ public class MainActivity extends AppCompatActivity
             /******************Set Veiw Button***************/
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
-            tesbtn=(Button)findViewById(R.id.tesbtn);
-            tesbtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-                    startActivityForResult(intent, 1);
-                }
-            });
-
         }
 
     @Override
@@ -134,7 +124,8 @@ public class MainActivity extends AppCompatActivity
 
         /*****************交換名片********************/
         if (id == R.id.nav_camera) {
-            NfcExchang(SqlBundle);
+            SelfBundle.putLong("id", FRIST_ID);
+            NfcExchang(SelfBundle);
 
         /****************設定個人資料***************/
         } else if (id == R.id.nav_gallery) {
@@ -144,11 +135,6 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         }
 
@@ -167,7 +153,12 @@ public class MainActivity extends AppCompatActivity
                 SelfBundle = data.getExtras();
                 SelfBundle.putLong("id", FRIST_ID);
                 setSelfCardView(SelfBundle);
-                SDL.update(SelfBundle);
+                if(SDL.getCount()>0){
+                    SDL.update(SelfBundle);
+                }else{
+                    SDL.insert(SelfBundle);
+                }
+
                 Toast.makeText(this, "以更新個人資料", Toast.LENGTH_SHORT).show();
             }
         }
@@ -192,36 +183,11 @@ public class MainActivity extends AppCompatActivity
         company.setText(b.getString("REQ5"));
         phone.setText(b.getString("REQ6"));
         address.setText(b.getString("REQ7"));
-
+        /*************轉換並顯示圖片*****************/
         Bitmap bitmap = BitmapFactory.decodeByteArray(b.getByteArray("image"), 0, b.getByteArray("image").length);
         img.setImageBitmap(bitmap);
+        Log.d("SQL", bitmap.toString());
 
-//        SelfBundle.putLong("id", 1);
-//        Log.d("SQL", "After Inster " + String.valueOf(SelfBundle.getLong("id")));
-//        if(SDL.update(SelfBundle)){
-//            Toast.makeText(this, "以更新個人資料", Toast.LENGTH_SHORT).show();
-//            SDL.update(SelfBundle);
-//        }else{
-//            Toast.makeText(this, "以儲存個人資料", Toast.LENGTH_SHORT).show();
-//            SDL.insert(SelfBundle);
-//        }
-
-
-//        Uri uri = data.getData();
-//        ContentResolver cr = this.getContentResolver();
-//                try
-//                {
-//                    //讀取照片，型態為Bitmap
-//                    Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-//
-//                    //判斷照片為橫向或者為直向，並進入ScalePic判斷圖片是否要進行縮放
-//                    if(bitmap.getWidth()>bitmap.getHeight())ScalePic(bitmap,
-//                            mPhone.heightPixels);
-//                    else ScalePic(bitmap,mPhone.widthPixels);
-//                }
-//                catch (FileNotFoundException e)
-//                {
-//                }
     }
 
     private void NfcExchang(Bundle b){
