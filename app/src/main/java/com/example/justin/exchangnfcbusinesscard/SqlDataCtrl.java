@@ -64,6 +64,23 @@ public class SqlDataCtrl {
         b.putLong("id", db.insert(TABLE_NAME, null, cv));
         return b;
     }
+
+    /******************更新欄位*****************/
+    public boolean update(Bundle b){
+        ContentValues cv = new ContentValues();
+        cv.put(NAME_COLUMN, b.getString("REQ1"));
+        cv.put(JOB_COLUMN, b.getString("REQ2"));
+        cv.put(CELLPHONE_CILUMN, b.getString("REQ3"));
+        cv.put(EMAIL_COLUMN, b.getString("REQ4"));
+        cv.put(COMPANY_COLUMN, b.getString("REQ5"));
+        cv.put(PHONE_COLUMN, b.getString("REQ6"));
+        cv.put(ADDRESS_COLUMN, b.getString("REQ7"));
+
+        String where = KEY_ID + "=" + b.getLong("id");
+        return db.update(TABLE_NAME, cv, where, null) > 0;
+    }
+
+    /****************取得id欄位******************/
     public Bundle getData(long id){
         Bundle b = new Bundle();
         String where = KEY_ID + "=" + id;
@@ -81,4 +98,8 @@ public class SqlDataCtrl {
         return b;
     }
 
+    /*************id欄位是否存在***************/
+//    public boolean isExist(long id){
+//
+//    }
 }

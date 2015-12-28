@@ -12,9 +12,10 @@
     tools:context="com.example.justin.exchangnfcbusinesscard.Main2Activity"
     tools:showIn="@layout/activity_main2">
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:id="@+id/imageButton"
+        android:scaleType="centerInside"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:src="@drawable/preset" />
@@ -24,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="姓名:"
         android:id="@+id/name"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/editText1"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -33,17 +34,17 @@
         android:layout_height="wrap_content"
         android:text="職稱:"
         android:id="@+id/job"
-        android:layout_below="@+id/name"
+        android:layout_above="@+id/cellphone"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="40dp" />
+        android:layout_marginBottom="32dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="手機:"
         android:id="@+id/cellphone"
-        android:layout_alignBottom="@+id/imageButton"
+        android:layout_below="@+id/imageButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -52,17 +53,16 @@
         android:layout_height="wrap_content"
         android:text="E-mail:"
         android:id="@+id/email"
-        android:layout_below="@+id/cellphone"
+        android:layout_below="@+id/editText3"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="44dp" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="公司:"
         android:id="@+id/company"
-        android:layout_alignTop="@+id/editText5"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -92,10 +92,10 @@
         android:inputType="textPersonName"
         android:ems="6"
         android:id="@+id/editText1"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/email"
-        android:layout_toEndOf="@+id/email"
-        android:text="Justin" />
+        android:text="Justin"
+        android:layout_above="@+id/editText2"
+        android:layout_alignLeft="@+id/editText2"
+        android:layout_alignStart="@+id/editText2" />
 
     <EditText
         android:layout_width="match_parent"
@@ -103,10 +103,12 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/editText4"
-        android:layout_alignTop="@+id/email"
+        android:text="justin840727@gmail.com"
+        android:layout_above="@+id/editText5"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_toRightOf="@+id/phone"
-        android:layout_toEndOf="@+id/phone"
-        android:text="justin840727@gmail.com" />
+        android:layout_toEndOf="@+id/phone" />
 
     <EditText
         android:layout_width="fill_parent"
@@ -125,19 +127,19 @@
         android:inputType="number"
         android:ems="7"
         android:id="@+id/editText3"
-        android:layout_alignTop="@+id/cellphone"
-        android:layout_toRightOf="@+id/email"
-        android:layout_toEndOf="@+id/email"
-        android:text="0919445833" />
+        android:text="0919445833"
+        android:layout_below="@+id/editText2"
+        android:layout_alignLeft="@+id/editText4"
+        android:layout_alignStart="@+id/editText4" />
 
     <EditText
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:id="@+id/editText2"
+        android:text="student"
         android:layout_alignTop="@+id/job"
-        android:layout_alignLeft="@+id/editText1"
-        android:layout_alignStart="@+id/editText1"
-        android:text="student" />
+        android:layout_alignLeft="@+id/editText3"
+        android:layout_alignStart="@+id/editText3" />
 
     <EditText
         android:layout_width="fill_parent"

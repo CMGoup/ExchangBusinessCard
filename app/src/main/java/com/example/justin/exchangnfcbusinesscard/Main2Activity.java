@@ -106,6 +106,9 @@ public class Main2Activity extends AppCompatActivity {
                     builder.show();
                 }
             });
+            /*************Image Button 縮放*************/
+            
+
 
             savebtn = (Button) findViewById(R.id.Savebtn);
             savebtn.setOnClickListener(new View.OnClickListener() {

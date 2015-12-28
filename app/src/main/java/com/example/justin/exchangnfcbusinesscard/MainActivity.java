@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity
             /****************DataBase setting*****************/
             SDL = new SqlDataCtrl(getApplicationContext());
 
+            /******************Set Veiw Button***************/
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
             tesbtn=(Button)findViewById(R.id.tesbtn);
@@ -66,29 +67,6 @@ public class MainActivity extends AppCompatActivity
             });
 
         }
-
-
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-   /*         @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
-      /*  DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);*/
-
 
     @Override
     public void onBackPressed() {
@@ -142,41 +120,13 @@ public class MainActivity extends AppCompatActivity
             startActivityForResult(intent, 1);
 
         } else if (id == R.id.nav_slideshow) {
-           /* btn3=(Button)findViewById(R.id.nav_slideshow);
-            btn3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-                    startActivityForResult(intent, 2);
-                }
-            });*/
+
         } else if (id == R.id.nav_manage) {
-            /*btn4=(Button)findViewById(R.id.nav_gallery);
-            btn4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-                    startActivityForResult(intent, 3);
-                }
-            });*/
+
         } else if (id == R.id.nav_share) {
-           /* btn5=(Button)findViewById(R.id.nav_gallery);
-            btn5.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-                    startActivityForResult(intent, 4);
-                }
-            });*/
+
         } else if (id == R.id.nav_send) {
-           /* btn6=(Button)findViewById(R.id.nav_gallery);
-            btn6.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-                    startActivityForResult(intent, 5);
-                }
-            });*/
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -243,10 +193,15 @@ public class MainActivity extends AppCompatActivity
         phone.setText(b.getString("REQ6"));
         address.setText(b.getString("REQ7"));
 
-
-        SelfBundle = SDL.insert(SelfBundle);
-        Toast.makeText(this, "以儲存個人資料", Toast.LENGTH_SHORT).show();
+        SelfBundle.putLong("id", 1);
         Log.d("SQL", "After Inster " + String.valueOf(SelfBundle.getLong("id")));
+        if(SDL.update(SelfBundle)){
+            Toast.makeText(this, "以更新個人資料", Toast.LENGTH_SHORT).show();
+            SDL.update(SelfBundle);
+        }else{
+            Toast.makeText(this, "以儲存個人資料", Toast.LENGTH_SHORT).show();
+            SDL.insert(SelfBundle);
+        }
 
         SqlBundle = SDL.getData(SelfBundle.getLong("id"));
 //        Uri uri = data.getData();

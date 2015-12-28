@@ -34,7 +34,8 @@ public class MyDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // 建立應用程式需要的表格
-        db.execSQL(SqlDataCtrl.CREATE_TABLE);
+        //db.execSQL(SqlDataCtrl.CREATE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + SqlDataCtrl.TABLE_NAME);
     }
 
     @Override
