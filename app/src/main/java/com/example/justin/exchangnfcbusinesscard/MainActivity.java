@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener
     {
         public Bundle SelfBundle;
-        public SqlDataCtrl SDL;
+        public static SqlDataCtrl SDL;
 
         public static final long FRIST_ID = 1;
 
@@ -134,8 +134,8 @@ public class MainActivity extends AppCompatActivity
             startActivityForResult(intent, 1);
 
         } else if (id == R.id.nav_slideshow) {
-
-
+            Intent i = new Intent(MainActivity.this, CardView.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

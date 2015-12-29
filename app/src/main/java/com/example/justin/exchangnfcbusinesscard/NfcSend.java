@@ -31,6 +31,7 @@ public class NfcSend extends AppCompatActivity implements NfcAdapter.CreateNdefM
     NfcAdapter mNfcAdapter;     //Nfc宣告
     TextView textView;
     String ReceiveStr;
+    public Bundle bundle;
     private static final int MESSAGE_SENT = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +135,9 @@ public class NfcSend extends AppCompatActivity implements NfcAdapter.CreateNdefM
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.d("SQL", "Data is is " + String.valueOf(MainActivity.SDL.insert(bundle)));
+                Toast.makeText(getApplicationContext(), "已存入名片匣", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
@@ -158,7 +161,7 @@ public class NfcSend extends AppCompatActivity implements NfcAdapter.CreateNdefM
 
     }
     public Bundle DatatoBundle(String str){
-        Bundle bundle = new Bundle();
+        bundle = new Bundle();
         String[] stringSplit = str.split("\n");
 
         bundle.putString("REQ1", stringSplit[0]);
@@ -169,9 +172,10 @@ public class NfcSend extends AppCompatActivity implements NfcAdapter.CreateNdefM
         bundle.putString("REQ6", stringSplit[5]);
         bundle.putString("REQ7", stringSplit[6]);
 
-        //byte[] theByteArray = stringSplit[7].;
-        //bundle.putByteArray("image", theByteArray);
+        byte[] theByteArray = stringSplit[7].getBytes();
+        bundle.putByteArray("image", theByteArray);
 
         return bundle;
     }
+
 }

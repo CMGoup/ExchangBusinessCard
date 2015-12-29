@@ -32,17 +32,20 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:background="@android:color/holo_orange_light"
+            android:layout_height="180dp">
             <ImageView
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:layout_margin="5dp"
+                android:layout_marginLeft="10dp"
                 android:scaleType="centerInside"
+                android:layout_gravity="center_vertical"
                 android:src="@drawable/preset"
                 android:id="@+id/nfc_image"/>
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="8dp"
+                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView

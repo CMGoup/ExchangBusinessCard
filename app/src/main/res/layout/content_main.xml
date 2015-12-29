@@ -14,72 +14,97 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="我的名片"
+            android:textSize="25sp"
+            android:layout_marginBottom="25dp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@android:color/holo_blue_dark"/>
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true" >
+            android:layout_width="match_parent"
+            android:background="@android:color/holo_blue_light"
+            android:layout_height="180dp"
+            android:layout_gravity="center_vertical">
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:id="@+id/imageView"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
                 android:src="@drawable/preset" />
             <LinearLayout
                 android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Name"
-                    android:id="@+id/Name"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true" />
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:id="@+id/Name" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Job"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
                     android:id="@+id/Job" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
                     android:text="Cellphone"
                     android:id="@+id/Cellphone" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
                     android:text="E-mail"
                     android:id="@+id/Email" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
                     android:text="Company"
                     android:id="@+id/Company" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
                     android:text="Phone"
                     android:id="@+id/Phone" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
                     android:text="Address"
                     android:id="@+id/Address" />
 
             </LinearLayout>
-
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
