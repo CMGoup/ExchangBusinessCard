@@ -60,7 +60,7 @@
                             android:text="手機:"
                             android:id="@+id/cellphone" />
                         <EditText
-                            android:layout_width="140dp"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:ems="7"
@@ -71,7 +71,7 @@
                 <ImageButton
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:id="@+id/imageButton"
                     android:scaleType="centerInside"
                     android:src="@drawable/preset" />

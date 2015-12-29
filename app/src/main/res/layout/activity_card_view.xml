@@ -40,41 +40,48 @@
                     android:layout_height="wrap_content"
                     android:textColor= "@android:color/white"
                     android:id="@+id/card_name"
+                    android:textStyle="bold"
                     android:text="text"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor= "@android:color/white"
                     android:id="@+id/card_job"
+                    android:textStyle="bold"
                     android:text="text"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor= "@android:color/white"
                     android:id="@+id/card_cellphone"
+                    android:textStyle="bold"
                     android:text="text"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor= "@android:color/white"
                     android:id="@+id/card_email"
+                    android:textStyle="bold"
                     android:text="text"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor= "@android:color/white"
                     android:id="@+id/card_company"
+                    android:textStyle="bold"
                     android:text="text"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor= "@android:color/white"
                     android:id="@+id/card_phone"
+                    android:textStyle="bold"
                     android:text="text"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor= "@android:color/white"
+                    android:textStyle="bold"
                     android:id="@+id/card_address"
                     android:text="text"/>
             </LinearLayout>
@@ -90,6 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/prebtn"
+                android:textStyle="bold"
                 android:text="上一張"/>
 
             <Button
@@ -97,6 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="100dp"
                 android:id="@+id/nextbtn"
+                android:textStyle="bold"
                 android:text="下一張"/>
 
         </LinearLayout>
